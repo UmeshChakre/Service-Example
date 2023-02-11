@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "127896296810",
+    "project_id": "notification-example-d2201",
+    "storage_bucket": "notification-example-d2201.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127896296810:android:49a0a77799cf2d332e1913",
+        "android_client_info": {
+          "package_name": "com.hungry4food.driver_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127896296810-0jt3kb3ju3klpp8ormblpfa4ks67alfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH2FhbelY-2VhVWVXfLM5kT4OvPq7_Nbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127896296810-0jt3kb3ju3klpp8ormblpfa4ks67alfa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "127896296810-92va2vh9go098tp6nr7d0ccbrj7l236a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chakre.driverapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
