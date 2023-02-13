@@ -1,4 +1,4 @@
-#Sun Feb 12 00:28:15 NPT 2023
+#Tue Feb 14 00:43:48 NPT 2023
 base.0=D\:\\examples\\service example\\service_impl\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_chanel', 'Important Notifications',
@@ -32,6 +31,33 @@ Future<void> main() async {
       ?.createNotificationChannel(channel);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
+  String? token = await FirebaseMessaging.instance.getToken();
+  debugPrint("TOKEN ===$token");
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null) {
+      debugPrint("NOTIFICATION ARRIVED");
+      debugPrint("Message shown inside");
+
+      flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+              android: AndroidNotificationDetails(channel.id, channel.name,
+                  channelDescription: channel.description,
+                  color: Colors.blue,
+                  playSound: true,
+                  icon: '@mipmap/ic_launcher')));
+
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
+        if (notification != null && android != null) {}
+      });
+    }
+  });
   // await initializeService();
 
   runApp(const MyApp());
@@ -157,12 +183,39 @@ void onStart(ServiceInstance service) async {
             ),
           ),
         );
+        // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        //   RemoteNotification? notification = message.notification;
+        //   AndroidNotification? android = message.notification?.android;
+        //   if (notification != null && android != null) {
+        //     debugPrint("NOTIFICATION ARRIVED");
+        //     debugPrint("Message shown inside");
 
-        // if you don't using custom notification, uncomment this
-        // service.setForegroundNotificationInfo(
-        //   title: "My App Service",
-        //   content: "Updated at ${DateTime.now()}",
-        // );
+        //     flutterLocalNotificationsPlugin.show(
+        //         notification.hashCode,
+        //         notification.title,
+        //         notification.body,
+        //         NotificationDetails(
+        //             android: AndroidNotificationDetails(
+        //                 channel.id, channel.name,
+        //                 channelDescription: channel.description,
+        //                 color: Colors.blue,
+        //                 playSound: true,
+        //                 icon: '@mipmap/ic_launcher')));
+        //     FlutterRingtonePlayer.play(
+        //       android: AndroidSounds.ringtone,
+        //       ios: IosSounds.electronic,
+        //       looping: false,
+        //       volume: 0.1,
+        //     );
+        //     FirebaseMessaging.onMessageOpenedApp
+        //         .listen((RemoteMessage message) {
+        //       RemoteNotification? notification = message.notification;
+        //       AndroidNotification? android = message.notification?.android;
+        //       if (notification != null && android != null) {}
+        //     });
+        //   }
+        // });
+
       }
     }
 
@@ -227,36 +280,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        debugPrint("NOTIFICATION ARRIVED");
-        debugPrint("Message shown inside");
-
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-                android: AndroidNotificationDetails(channel.id, channel.name,
-                    channelDescription: channel.description,
-                    color: Colors.blue,
-                    playSound: true,
-                    icon: '@mipmap/ic_launcher')));
-        FlutterRingtonePlayer.play(
-          android: AndroidSounds.ringtone,
-          ios: IosSounds.electronic,
-          looping: false,
-          volume: 0.1,
-        );
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-          RemoteNotification? notification = message.notification;
-          AndroidNotification? android = message.notification?.android;
-          if (notification != null && android != null) {}
-        });
-      }
-    });
   }
 
   @override
